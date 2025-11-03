@@ -22,11 +22,27 @@ import model.iam.User;
 @WebServlet(urlPatterns = "/request/list")
 public class ListController extends BaseRequiredAuthorizationController {
 
-    protected void processRequest(HttpServletRequest req, HttpServletResponse resp, User user) throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest req, HttpServletResponse resp, User user) throws ServletException,IOException {
         RequestForLeaveDBContext db = new RequestForLeaveDBContext();
-        ArrayList<RequestForLeave> rfls = db.getByEmployeeAndSubodiaries(user.getId());
+        ArrayList<RequestForLeave> rfls = db.getByEmployeeAndSubodiaries(user.getEmployee().getId());
+        String messageKey = req.getParameter("message");
+        if (messageKey != null) {
+            String message = null;
+            switch (messageKey) {
+                case "created":
+                    message = "New leave request created successfully.";
+                    break;
+                case "updated":
+                    message = "Leave request updated successfully.";
+                    break;
+                default:
+                    message = null;
+                    break;
+            }
+            req.setAttribute("message", message);
+        }
         req.setAttribute("rfls", rfls);
-        req.getRequestDispatcher("../view/request/list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/view/request/list.jsp").forward(req, resp);
     }
 
     @Override

@@ -1,3 +1,9 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package controller.iam;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +20,7 @@ public abstract class BaseRequiredAuthenticationController extends HttpServlet {
         User u = (User) req.getSession().getAttribute("auth");
         return u != null;
     }
-    protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException;
+    protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException,IOException;
     protected abstract void doGet(HttpServletRequest req, HttpServletResponse resp,User user) throws ServletException, IOException;
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,7 +29,6 @@ public abstract class BaseRequiredAuthenticationController extends HttpServlet {
             User u = (User) req.getSession().getAttribute("auth");
             doPost(req, resp, u);
         } else {
-            resp.getWriter().println("access denied!");
             resp.sendRedirect(req.getContextPath() + "/login");
         }
     }
@@ -35,7 +40,6 @@ public abstract class BaseRequiredAuthenticationController extends HttpServlet {
              User u = (User) req.getSession().getAttribute("auth");
             doGet(req, resp, u);
         } else {
-            resp.getWriter().println("access denied!");
             resp.sendRedirect(req.getContextPath() + "/login");
         }
     }

@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package controller.home;
 
 import controller.iam.BaseRequiredAuthenticationController;
@@ -54,5 +58,4 @@ public class HomeController extends BaseRequiredAuthenticationController {
             req.getSession().setAttribute("auth", user);
         }
     }
-    
 }

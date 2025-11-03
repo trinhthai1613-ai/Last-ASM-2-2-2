@@ -6,22 +6,25 @@ package model;
 
 import java.util.Date;
 
-
-
-
 /**
  *
  * @author sonnt
  */
 public class RequestForLeave extends BaseModel {
+
+    public static final int STATUS_IN_PROGRESS = 0;
+    public static final int STATUS_APPROVED = 1;
+    public static final int STATUS_REJECTED = 2;
+
     private Employee created_by;
-    private java.util.Date created_time;
+    private Date created_time;
     private java.sql.Date from;
     private java.sql.Date to;
     private String reason;
     private int status;
     private Employee processed_by;
-    
+    private int reviewerLevel = -1;
+
     public Employee getCreated_by() {
         return created_by;
     }
@@ -77,5 +80,31 @@ public class RequestForLeave extends BaseModel {
     public void setProcessed_by(Employee processed_by) {
         this.processed_by = processed_by;
     }
-    
+
+    public int getReviewerLevel() {
+        return reviewerLevel;
+    }
+
+    public void setReviewerLevel(int reviewerLevel) {
+        this.reviewerLevel = reviewerLevel;
+    }
+
+    public boolean getCanProcess() {
+        return reviewerLevel > 0 && status == STATUS_IN_PROGRESS;
+    }
+
+    public boolean isCreatedByViewer() {
+        return reviewerLevel == 0;
+    }
+
+    public String getStatusLabel() {
+        switch (status) {
+            case STATUS_APPROVED:
+                return "Approved";
+            case STATUS_REJECTED:
+                return "Rejected";
+            default:
+                return "In progress";
+        }
+    }
 }

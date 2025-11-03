@@ -23,17 +23,17 @@ public class RoleDBContext extends DBContext<Role> {
 
         try {
             String sql = """
-                                     SELECT r.rid,r.rname,f.fid,f.url
-                                     FROM [User] u INNER JOIN [UserRole] ur ON u.uid = ur.uid
-                                     \t\t\t\t\t\tINNER JOIN [Role] r ON r.rid = ur.rid
-                                     \t\t\t\t\t\tINNER JOIN [RoleFeature] rf ON rf.rid = r.rid
-                                     \t\t\t\t\t\tINNER JOIN [Feature] f ON f.fid = rf.fid
-                                     \t\t\t\t\t\tWHERE u.uid = ?""";
+                                       SELECT r.rid,r.rname,f.fid,f.url
+                                       FROM [User] u INNER JOIN [UserRole] ur ON u.uid = ur.uid
+                                       \t\t\t\tINNER JOIN [Role] r ON r.rid = ur.rid
+                                       \t\t\t\tINNER JOIN [RoleFeature] rf ON rf.rid = r.rid
+                                       \t\t\t\tINNER JOIN [Feature] f ON f.fid = rf.fid
+                                       \t\t\t\tWHERE u.uid = ?""";
 
             PreparedStatement stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             ResultSet rs = stm.executeQuery();
-            
+
             Role current = new Role();
             current.setId(-1);
             while(rs.next())
@@ -42,7 +42,7 @@ public class RoleDBContext extends DBContext<Role> {
                 if(rid != current.getId())
                 {
                     current = new Role();
-                    current.setId(id);
+                    current.setId(rid);
                     current.setName(rs.getString("rname"));
                     roles.add(current);
                 }
@@ -51,7 +51,7 @@ public class RoleDBContext extends DBContext<Role> {
                 f.setUrl(rs.getString("url"));
                 current.getFeatures().add(f);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(RoleDBContext.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

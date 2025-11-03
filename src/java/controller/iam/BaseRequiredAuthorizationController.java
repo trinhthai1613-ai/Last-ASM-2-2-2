@@ -43,7 +43,7 @@ public abstract class BaseRequiredAuthorizationController extends BaseRequiredAu
         if(isAuthorized(req, user))
             processPost(req, resp, user);
         else
-            resp.getWriter().println("access denied!");
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
     }
 
     @Override
@@ -51,7 +51,7 @@ public abstract class BaseRequiredAuthorizationController extends BaseRequiredAu
         if(isAuthorized(req, user))
             processGet(req, resp, user);
         else
-            resp.getWriter().println("access denied!");
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
     }
 
 }
